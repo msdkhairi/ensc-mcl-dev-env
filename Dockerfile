@@ -1,5 +1,5 @@
-FROM nvidia/cuda:13.0.1-cudnn-devel-ubuntu24.04
-# FROM nvidia/cuda:13.0.1-cudnn-devel-ubuntu22.04
+# FROM nvidia/cuda:13.0.1-cudnn-devel-ubuntu24.04
+FROM nvidia/cuda:12.2.2-cudnn8-devel-ubuntu22.04
 
 # Install necessary packages
 ARG DEBIAN_FRONTEND=noninteractive
