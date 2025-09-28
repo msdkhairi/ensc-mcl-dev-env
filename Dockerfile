@@ -38,6 +38,7 @@ RUN apt-get update && \
     libxext6 \
     ffmpeg \
     tk-dev \
+    direnv \
     ninja-build
 
 # Create /root/.ssh directory
