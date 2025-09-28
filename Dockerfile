@@ -8,6 +8,7 @@ RUN apt-get update && \
     apt-transport-https \
     ca-certificates \
     openssh-client \
+    unzip \
     less \
     wget \
     lsb-release \
