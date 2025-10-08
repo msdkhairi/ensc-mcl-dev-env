@@ -3,7 +3,7 @@ name: Docker Build and Push to Docker Hub
 on:
   push:
     branches:
-      - main
+      - nvidia
   workflow_dispatch: # Allow manual triggering
 
 jobs:
