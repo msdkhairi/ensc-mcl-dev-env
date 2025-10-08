@@ -3,8 +3,9 @@ FROM nvidia/cuda:12.2.2-cudnn8-devel-ubuntu22.04
 
 # Install necessary packages
 ARG DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
+RUN apt update && \
+    apt full-upgrade -y && \
+    apt install -y --no-install-recommends \
     apt-transport-https \
     ca-certificates \
     openssh-client \
@@ -47,8 +48,8 @@ RUN mkdir -p /root/.ssh
 # Install openjdk 11
 RUN curl -o /tmp/packages-microsoft-prod.deb https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb && \
     dpkg -i /tmp/packages-microsoft-prod.deb && \
-    apt-get update && \
-    apt-get install -y --no-install-recommends \
+    apt update && \
+    apt install -y --no-install-recommends \
     msopenjdk-11
 
 # Install miniconda
