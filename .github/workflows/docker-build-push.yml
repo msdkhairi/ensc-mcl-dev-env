@@ -35,7 +35,7 @@ jobs:
           platforms: linux/amd64 # Specify platforms if needed, e.g., linux/amd64,linux/arm64
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPOSITORY }}:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPOSITORY }}:nvidia
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPOSITORY }}:${{ github.sha }}
           # Consider adding cache-from and cache-to for Docker layer caching if appropriate
           # cache-from: type=gha
