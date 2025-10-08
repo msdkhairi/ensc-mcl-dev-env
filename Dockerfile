@@ -1,4 +1,5 @@
-FROM debian:12.12
+# FROM debian:12.12
+FROM ubuntu:24:04
 
 # Install necessary packages
 ARG DEBIAN_FRONTEND=noninteractive
