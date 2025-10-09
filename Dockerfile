@@ -2,8 +2,8 @@ FROM debian:12.12-slim
 
 # Install necessary packages
 ARG DEBIAN_FRONTEND=noninteractive
-RUN apt update && \
-    apt install -y --no-install-recommends \
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
     apt-transport-https \
     ca-certificates \
     openssh-client \
@@ -46,8 +46,8 @@ RUN mkdir -p /root/.ssh
 # Install openjdk 11
 RUN curl -o /tmp/packages-microsoft-prod.deb https://packages.microsoft.com/config/debian/$(lsb_release -rs)/packages-microsoft-prod.deb && \
     dpkg -i /tmp/packages-microsoft-prod.deb && \
-    apt update && \
-    apt install -y --no-install-recommends \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
     msopenjdk-11
 
 # Install miniconda
