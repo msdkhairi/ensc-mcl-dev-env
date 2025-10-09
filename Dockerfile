@@ -4,14 +4,12 @@ FROM debian:12.12-slim
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    apt-transport-https \
     ca-certificates \
     openssh-client \
     unzip \
     less \
     wget \
     lsb-release \
-    gpustat \
     git \
     curl \
     build-essential \
@@ -19,7 +17,6 @@ RUN apt-get update && \
     htop \
     nano \
     vim \
-    pipx \
     libreadline-dev \
     libncursesw5-dev \
     libssl-dev \
