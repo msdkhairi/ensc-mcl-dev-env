@@ -1,10 +1,8 @@
-# FROM debian:12.12
-FROM ubuntu:24:04
+FROM debian:12.12-slim
 
 # Install necessary packages
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt update && \
-    apt full-upgrade -y && \
     apt install -y --no-install-recommends \
     apt-transport-https \
     ca-certificates \
@@ -46,7 +44,7 @@ RUN apt update && \
 RUN mkdir -p /root/.ssh
 
 # Install openjdk 11
-RUN curl -o /tmp/packages-microsoft-prod.deb https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb && \
+RUN curl -o /tmp/packages-microsoft-prod.deb https://packages.microsoft.com/config/debian/$(lsb_release -rs)/packages-microsoft-prod.deb && \
     dpkg -i /tmp/packages-microsoft-prod.deb && \
     apt update && \
     apt install -y --no-install-recommends \
@@ -55,13 +53,9 @@ RUN curl -o /tmp/packages-microsoft-prod.deb https://packages.microsoft.com/conf
 # Install miniconda
 ENV CONDA_DIR=/opt/conda
 RUN curl -LsSf https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -o /tmp/miniconda.sh && \
-    /bin/bash /tmp/miniconda.sh -b -p /opt/conda
-
-# Put conda in path so we can use conda activate
+    /bin/bash /tmp/miniconda.sh -b -p /opt/conda && \
+    rm /tmp/miniconda.sh
 ENV PATH="${CONDA_DIR}/bin:${PATH}"
-
-# Initialize conda
-RUN conda init bash
 RUN conda config --set auto_activate_base false
 
 # Install uv, the fast Python package manager
