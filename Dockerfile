@@ -2,9 +2,13 @@ FROM debian:12.13-slim
 
 # Install necessary packages
 ARG DEBIAN_FRONTEND=noninteractive
+ARG USERNAME=dev
+ARG UID=1000
+ARG GID=1000
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     ca-certificates \
+    sudo \
     openssh-client \
     unzip \
     less \
@@ -56,11 +60,14 @@ ENV PATH="${CONDA_DIR}/bin:${PATH}"
 RUN conda config --set auto_activate_base false
 
 # Install uv, the fast Python package manager
+ENV UV_INSTALL_DIR=/usr/local/bin
 RUN curl -LsSf https://astral.sh/uv/install.sh -o /tmp/uv-install.sh && \
-  sh /tmp/uv-install.sh
+  sh /tmp/uv-install.sh && \
+  rm /tmp/uv-install.sh
 
 # Add uv to the PATH
-ENV PATH="/root/.local/bin:${PATH}"
+ENV PATH="${CONDA_DIR}/bin:/usr/local/bin:${PATH}"
+RUN echo 'export PATH="$HOME/.local/bin:/opt/conda/bin:/usr/local/bin:$PATH"' > /etc/profile.d/dev-path.sh
 
 # Install VSCode CLI
 RUN curl -sL "https://code.visualstudio.com/sha/download?build=stable&os=cli-alpine-x64" \
@@ -85,3 +92,23 @@ RUN git config --global user.email "git@masoudka.com" && \
 RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/*
+
+# Create the non-root development user near the end so setup above stays root-owned.
+RUN set -eux; \
+    if ! getent group "${GID}" >/dev/null; then \
+        groupadd --gid "${GID}" "${USERNAME}"; \
+    fi; \
+    useradd --no-log-init --uid "${UID}" --gid "${GID}" --create-home --shell /bin/bash "${USERNAME}"; \
+    mkdir -p "/home/${USERNAME}/.ssh" /workspace; \
+    cp /root/.bashrc "/home/${USERNAME}/.bashrc"; \
+    cp /root/.gitconfig "/home/${USERNAME}/.gitconfig"; \
+    chown -R "${UID}:${GID}" "/home/${USERNAME}" /workspace "${CONDA_DIR}"; \
+    chmod 700 "/home/${USERNAME}/.ssh"; \
+    echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" > "/etc/sudoers.d/${USERNAME}"; \
+    chmod 0440 "/etc/sudoers.d/${USERNAME}"
+
+ENV HOME=/home/${USERNAME}
+ENV USER=${USERNAME}
+ENV PATH="${HOME}/.local/bin:${CONDA_DIR}/bin:/usr/local/bin:${PATH}"
+WORKDIR /workspace
+USER ${USERNAME}
