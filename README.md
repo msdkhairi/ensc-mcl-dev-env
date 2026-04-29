@@ -77,19 +77,19 @@ The launcher defaults to a container user named `dev`, with home directory
 `CONTAINER_USERNAME` and rebuild the image. For example:
 
 ```sh
-CONTAINER_USERNAME=mka267 REBUILD_IMAGE=1 RECREATE_CONTAINER=1 ./launch_code_tunnel_docker.sh
+CONTAINER_USERNAME=dev REBUILD_IMAGE=1 RECREATE_CONTAINER=1 ./launch_code_tunnel_docker.sh
 ```
 
 For csh/tcsh:
 
 ```csh
-setenv CONTAINER_USERNAME mka267
+setenv CONTAINER_USERNAME dev
 setenv REBUILD_IMAGE 1
 setenv RECREATE_CONTAINER 1
 ./launch_code_tunnel_docker.sh
 ```
 
-That builds with `--build-arg USERNAME=mka267`, uses `/home/mka267/workspace`,
-and defaults the container name to `mka267-remote`. You can still override paths
+That builds with `--build-arg USERNAME=dev`, uses `/home/dev/workspace`,
+and defaults the container name to `dev-remote`. You can still override paths
 explicitly with `CONTAINER_HOME`, `CONTAINER_WORKSPACE_DIR`,
 `CONTAINER_CONDA_DIR`, or `CONTAINER_DATASETS_DIR`.
