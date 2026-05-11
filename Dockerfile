@@ -1,4 +1,4 @@
-FROM debian:12.13-slim
+FROM debian:12.13
 
 # Install system packages as root.
 ARG DEBIAN_FRONTEND=noninteractive
