@@ -101,8 +101,8 @@ RUN curl -LsSf https://astral.sh/uv/install.sh -o /tmp/uv-install.sh && \
     sh /tmp/uv-install.sh && \
     rm /tmp/uv-install.sh
 
-RUN curl -sL "https://code.visualstudio.com/sha/download?build=stable&os=cli-alpine-x64" \
-        --output /tmp/vscode-cli.tar.gz && \
+ARG VSCODE_CLI_URL="https://code.visualstudio.com/sha/download?build=stable&os=cli-alpine-x64"
+RUN curl -sL "${VSCODE_CLI_URL}" --output /tmp/vscode-cli.tar.gz && \
     tar -xf /tmp/vscode-cli.tar.gz -C "${HOME}/.local/bin" && \
     rm /tmp/vscode-cli.tar.gz
 
